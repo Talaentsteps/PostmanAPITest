@@ -1,0 +1,830 @@
+{
+	"info": {
+		"_postman_id": "7b0407d8-b333-49a0-af45-932c17062689",
+		"name": "Updated Tscout task api's",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create new task",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "meself",
+						"value": "cons_company",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"tasktitle\": \"Today task\",\n    \"companyid\": \"159652892365939169985\",\n    \"jobid\": \"1595327530351815\",\n    \"taskcreateby\": \"159652878477216975056\",\n    \"taskassignto\": \"159652878477216975056\",\n    \"taskcontacts\": \"159653380337799243152\",\n    \"taskduedate\": \"2020-09-20 16:21:36+05:30\",\n    \"taskreminderat\": \"2020-09-15 16:21:36+05:30\",\n    \"tasktime\": \"12:10\",\n    \"tasktype\": \"Email\",\n    \"taskcomments\": \"This is My task\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/v1/tasks/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"v1",
+						"tasks",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Task overall list",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "meself",
+						"value": "cons_company",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"page\": 1,\n    \"companyid\": \"159652892365939169985\",\n    \"tasktitle\": \"\",\n    \"taskstatus\": \"\",\n    \"searchParam\": \"openTasks\",\n    \"taskassignbyme\": \"\",\n    \"sorting\": {\n        \"field\": \"\",\n        \"orderby\": \"\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/v1/tasks/list",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"v1",
+						"tasks",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Task overall list - prod",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5710d9c4-50b0-4da1-8318-1cd43f8d0bc3",
+						"exec": [
+							"/*pm.test(\"response is ok\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});*/\r",
+							"\r",
+							"/*let jsonData = JSON.parse(responseBody);\r",
+							"pm.test(\"Verify firstname\", function () { \r",
+							"    pm.expect(jsonData.lists[0].firstname).is.to.equal(\"mohamed\"); \r",
+							"});*/\r",
+							"\r",
+							"//if the Body response has Array then we need to use for loop to retrieve the value. \r",
+							"let jsonData = JSON.parse(responseBody);\r",
+							"let values = jsonData.lists;\r",
+							"pm.test(\"Verify firstname\", function () {\r",
+							" // type 1\r",
+							" for (let i = 0; i< values.length; i++){\r",
+							" if(values[i].firstname == 'mohamed'){\r",
+							" console.log(values[i]);\r",
+							" }else{\r",
+							" console.log('No data found');\r",
+							" }\r",
+							" }\r",
+							" });\r",
+							"\r",
+							" /*// type 2 solution\r",
+							" values.map(final=>{\r",
+							" if(final.firstname == 'mohamed'){\r",
+							" console.log(final);\r",
+							" }else{\r",
+							" console.log('No data found');\r",
+							" }\r",
+							" })*/\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "meself",
+						"type": "text",
+						"value": "cons_company"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"page\":1,\n    \"companyid\": \"159652892365939169985\",\n    \"tasktitle\": \"\",\n    \"taskstatus\": \"\",\n    \"searchParam\": \"openTasks\",\n    \"taskassignbyme\": \"\",\n    \"sorting\": {\n        \"field\": \"\",\n        \"orderby\": \"\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://130.61.138.41:8001/api/v1/tasks/list",
+					"protocol": "http",
+					"host": [
+						"130",
+						"61",
+						"138",
+						"41"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"v1",
+						"tasks",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Task edit",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "meself",
+						"value": "cons",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"tasktitle\": \"Golang developer\",\n    \"taskid\": \"1596193923290501\",\n    \"taskcreateby\": \"1595327440063518\",\n    \"taskmodifiedby\": \"1595327440063518\",\n    \"taskassignto\": \"1595336123381851\",\n    \"taskcontacts\": \"1596195528150412\",\n    \"taskduedate\": \"2020-08-04 16:21:36+05:30\",\n    \"taskreminderat\": \"2020-07-28 16:21:36+05:30\",\n    \"tasktime\": \"12:10\",\n    \"tasktype\": \"Email\",\n    \"taskstatus\": \"On Hold\",\n    \"taskcomments\": \"This is my first updated task\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/v1/tasks/edit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"v1",
+						"tasks",
+						"edit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Task edit - prod",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "eba4c1e9-a59f-417f-aead-f7905a267ef4",
+						"exec": [
+							"pm.test(\"response is ok\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "meself",
+						"type": "text",
+						"value": "cons_company"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"tasktitle\": \"Golang developer\",\n    \"taskid\": \"159662587229042818633\",\n    \"taskcreateby\": \"159653370085665162632\",\n    \"taskmodifiedby\": \"159653370085665162632\",\n    \"taskassignto\": \"1595336123381851\",\n    \"taskcontacts\": \"1596195528150412\",\n    \"taskduedate\": \"2020-08-04 16:21:36+05:30\",\n    \"taskreminderat\": \"2020-07-28 16:21:36+05:30\",\n    \"tasktime\": \"12:10\",\n    \"tasktype\": \"Email\",\n    \"taskstatus\": \"On Hold\",\n    \"taskcomments\": \"This is my first updated task\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://130.61.138.41:8001/api/v1/tasks/edit",
+					"protocol": "http",
+					"host": [
+						"130",
+						"61",
+						"138",
+						"41"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"v1",
+						"tasks",
+						"edit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Task full overview",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "meself",
+						"value": "cons_company",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"taskid\": \"159799101506678573475\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/v1/tasks/taskview",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"v1",
+						"tasks",
+						"taskview"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete task",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "meself",
+						"value": "cons_company",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"taskid\": \"159662587229042818633\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/v1/tasks/delete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"v1",
+						"tasks",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create new task - prod",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "09031a00-ed68-4227-bb7a-bb3fb06e6da4",
+						"exec": [
+							"pm.test(\"response is ok\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "meself",
+						"value": "cons_company",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"tasktitle\": \"Today task1409\",\n    \"companyid\": \"159652892365939169985\",\n    \"jobid\": \"1595327530351811\",\n    \"taskcreateby\": \"159652878477216975056\",\n    \"taskassignto\": \"159652878477216975056\",\n    \"taskcontacts\": \"159653380337799243152\",\n    \"taskduedate\": \"2020-10-14 16:21:36+05:30\",\n    \"taskreminderat\": \"2020-09-20 16:21:36+05:30\",\n    \"tasktime\": \"12:10\",\n    \"tasktype\": \"Email\",\n    \"taskcomments\": \"This is My own task\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://130.61.138.41:8001/api/v1/tasks/create",
+					"protocol": "http",
+					"host": [
+						"130",
+						"61",
+						"138",
+						"41"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"v1",
+						"tasks",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Task activity",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "meself",
+						"value": "cons_company",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"taskid\":\"159653656286967780196\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/v1/tasks/activity",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"v1",
+						"tasks",
+						"activity"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Task activity - prod",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4916bc89-e08f-4f45-a2cd-67026f71a0af",
+						"exec": [
+							"pm.test(\"response is ok\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							" console.log(\"I'm a boring old log\");\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "meself",
+						"value": "cons",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"taskid\":\"1595949548227447\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://130.61.138.41:8001/api/v1/tasks/activity",
+					"protocol": "http",
+					"host": [
+						"130",
+						"61",
+						"138",
+						"41"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"v1",
+						"tasks",
+						"activity"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Task statistical reports - prod",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "06b1c14e-2a1d-4267-8d0e-9052fe0e0b67",
+						"exec": [
+							"pm.test(\"response is ok\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "meself",
+						"value": "cons_company",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"companyid\": \"159652892365939169985\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://130.61.138.41:8001/api/v1/tasks/report",
+					"protocol": "http",
+					"host": [
+						"130",
+						"61",
+						"138",
+						"41"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"v1",
+						"tasks",
+						"report"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listing company based contacts",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "meself",
+						"value": "cons_company",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"companyid\": \"159652892365939169985\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/v1/tasks/taskcontacts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"v1",
+						"tasks",
+						"taskcontacts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Task assignto users list based on company or client",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "meself",
+						"value": "cons_company",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"companyid\": \"159652892365939169985\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/v1/tasks/taskassignto",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"v1",
+						"tasks",
+						"taskassignto"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Task assignto users list based on company or client - prod",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "17e8696c-e1ab-4f0d-8112-b6e5d51d9e8e",
+						"exec": [
+							"/*pm.test(\"response is ok\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});*/\r",
+							"\r",
+							"let jsonData = JSON.parse(responseBody);\r",
+							"let values = jsonData;\r",
+							"pm.test(\"Verify username\", function () {\r",
+							" // type 1\r",
+							" for (let i = 0; i< values.length; i++){\r",
+							" if(values[i].username == \"balaji sachin\"){\r",
+							" console.log(values[i]);\r",
+							" }else{\r",
+							" console.log('No data found');\r",
+							" }\r",
+							" }\r",
+							" });\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "meself",
+						"type": "text",
+						"value": "cons_company"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"companyid\": \"159652892365939169985\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://130.61.138.41:8001/api/v1/tasks/taskassignto",
+					"protocol": "http",
+					"host": [
+						"130",
+						"61",
+						"138",
+						"41"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"v1",
+						"tasks",
+						"taskassignto"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Task statistical reports",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "meself",
+						"value": "cons",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"companyid\": \"1595327530351814\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/v1/tasks/report",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"v1",
+						"tasks",
+						"report"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Task title searc-prod",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "da4874c0-d6ba-4b0d-868c-6dd1c0fd20bd",
+						"exec": [
+							"pm.test(\"response is ok\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "meself",
+						"value": "cons_company",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"tasktitle\": \"new\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://130.61.138.41:8001/api/v1/tasks/title",
+					"protocol": "http",
+					"host": [
+						"130",
+						"61",
+						"138",
+						"41"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"v1",
+						"tasks",
+						"title"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Task assign by me based on date filter-prod",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ed3bfc07-34df-4d9a-a3dc-1f1fe1bd6ebd",
+						"exec": [
+							"\r",
+							"//if error code is  500 means u can use jsonData.error.status\r",
+							" //if error code is  400 means u can use jsonData.status\r",
+							"\r",
+							"let jsonData = JSON.parse(responseBody);\r",
+							"pm.test(\"Verify status code\", function () { \r",
+							"    pm.expect(jsonData.status).is.to.equal(400);     //positive\r",
+							"//  pm.expect(jsonData.error.status).is.to.equal(500); //negative \r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "meself",
+						"value": "cons_company",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"companyid\": \"159652892365939169985\",\n    \"taskassignbyme\": \"159652878477216975056\",\n    \"dateParam\": \"Today\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://130.61.138.41:8001/api/v1/tasks/AssignbyMe",
+					"protocol": "http",
+					"host": [
+						"130",
+						"61",
+						"138",
+						"41"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"v1",
+						"tasks",
+						"AssignbyMe"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
